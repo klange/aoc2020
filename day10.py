@@ -31,12 +31,8 @@ def recurse_arrangements(x):
                 c += recurse_arrangements(i)
             else:
                 break
-        if c == 0:
-            memo[x] = 0
-            return 0
-        else:
-            memo[x] = c
-            return c
+        memo[x] = c
+        return c
 
 count = recurse_arrangements(0)
 print(count)
