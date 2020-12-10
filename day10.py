@@ -18,21 +18,13 @@ for i in range(0,len(foo)-1):
 
 print(diffs[1] * diffs[3])
 
-memo = {}
+memo = {(len(foo)-1): 1}
 def recurse_arrangements(x):
-    if x == len(foo)-1:
-        return 1
-    if x in memo: return memo[x]
-    else:
-        me = foo[x]
-        c = 0
+    if x not in memo:
+        memo[x] = 0
         for i in range(x+1,len(foo)):
-            if foo[i] <= (me + 3):
-                c += recurse_arrangements(i)
-            else:
-                break
-        memo[x] = c
-        return c
+            if foo[i] > (foo[x] + 3): break
+            memo[x] += recurse_arrangements(i)
+    return memo[x]
 
-count = recurse_arrangements(0)
-print(count)
+print(recurse_arrangements(0))
