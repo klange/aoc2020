@@ -35,21 +35,20 @@ def gcd(a,b):
 def lcm(a, b):
     return abs(a*b) // gcd(a, b)
 
-def test(t):
-    return all([(t + x) % y == 0 for (x, y) in stuff])
-
-
 diff = stuff[0][1]
 t = diff
-n = 1
+iterations = 1
+foundset = set()
 while True:
-    if test(t):
+    diffs = [(t + x) % y for (x,y) in stuff]
+    if all([x == 0 for x in diffs]):
         print(t)
         break
-    else:
-        diffs = [(t + x) % y for (x,y) in stuff]
-        if diffs[n] == 0:
-            diff = lcm(diff, stuff[n][1])
-            n += 1
-        t += diff
+    if any([x == 0 for x in diffs]):
+        for i in [j for j in range(len(diffs)) if diffs[j] == 0 and j not in foundset]:
+            print("Found bus",i,"at time",t,"with",iterations,"iterations")
+            foundset.add(i)
+            diff = lcm(diff, stuff[i][1])
+    t += diff
+    iterations += 1
 
