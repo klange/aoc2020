@@ -16,21 +16,12 @@ while True:
     else:
         t += 1
 
-stuff = []
-j = 0
-for bus in others:
-    if bus != 'x':
-        stuff.append((j, int(bus)))
-    j += 1
+stuff = [(j, int(others[j])) for j in range(len(others)) if others[j] != 'x']
 
-memo = {}
 def gcd(a,b):
-    if (min(a,b),max(a,b)) not in memo:
-        _a, _b = a, b
-        while b:
-            a, b = b, a % b
-        memo[min(a,b),max(a,b)] = a
-    return memo[min(a,b),max(a,b)]
+    while b:
+        a, b = b, a % b
+    return a
 
 def lcm(a, b):
     return abs(a*b) // gcd(a, b)
