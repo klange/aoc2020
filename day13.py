@@ -31,15 +31,13 @@ t = diff
 iterations = 1
 foundset = set()
 while True:
-    diffs = [(t + x) % y for (x,y) in stuff]
-    if all([x == 0 for x in diffs]):
+    for i in [i for i in range(len(stuff)) if (t + stuff[i][0]) % stuff[i][1] == 0 and i not in foundset]:
+        print("Found bus",i,"at time",t,"with",iterations,"iterations")
+        foundset.add(i)
+        diff = lcm(diff, stuff[i][1])
+    if len(foundset) == len(stuff):
         print(t)
         break
-    if any([x == 0 for x in diffs]):
-        for i in [j for j in range(len(diffs)) if diffs[j] == 0 and j not in foundset]:
-            print("Found bus",i,"at time",t,"with",iterations,"iterations")
-            foundset.add(i)
-            diff = lcm(diff, stuff[i][1])
     t += diff
     iterations += 1
 
