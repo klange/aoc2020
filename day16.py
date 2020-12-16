@@ -6,7 +6,6 @@ process = 0
 errors = 0
 my_ticket = []
 valid_tickets = []
-candidates = []
 
 def process_ticket(ticket, candidates):
     for i in range(len(ticket)):
@@ -45,11 +44,8 @@ for line in lines:
             if s:
                 valid_tickets.append(ticket)
 
-for i in range(len(fields)):
-    candidates.append(set(fields.keys()))
-
+candidates = [set(fields.keys()) for i in range(len(fields))]
 valid_tickets.append(my_ticket)
-
 for ticket in valid_tickets:
     process_ticket(ticket, candidates)
 
@@ -57,11 +53,9 @@ while True:
     made_progress = 0
     for f in fields.keys():
         hits = [i for i in range(len(candidates)) if (len(candidates[i]) == 1 and f in candidates[i])]
-        if len(hits) == 1:
-            for j in range(len(candidates)):
-                if j != hits[0] and f in candidates[j]:
-                    candidates[j].remove(f)
-                    made_progress = 1
+        for j in [x for x in range(len(candidates)) if hits and x != hits[0] and f in candidates[x]]:
+            candidates[j].remove(f)
+            made_progress = 1
     if all(len(c) == 1 for c in candidates) or not made_progress:
         break
 
