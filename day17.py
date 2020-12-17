@@ -8,7 +8,7 @@ for dims in [3,4]:
     def neighbors(coord):
         for x, y, z in [(x, y, z) for x in [-1,0,1] for y in [-1,0,1] for z in [-1,0,1]]:
             for t in [-1,0,1] if dims == 4 else [0]:
-                if abs(x) <= 1 and abs(y) <= 1 and abs(z) <= 1 and abs(t) <= 1 and sum([abs(x),abs(y),abs(z), abs(t)]) != 0:
+                if sum([abs(x),abs(y),abs(z), abs(t)]) != 0:
                     yield (coord[0] + x, coord[1] + y, coord[2] + z, coord[3] + t)
 
     for x, l in enumerate(lines):
