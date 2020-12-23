@@ -1,9 +1,9 @@
 # Initialize a hash as a circular linked list by pointing each cup label as a
 # key to the cup label that follows as a value.
 p = "538914762"
-ordering = {
-    int(v): int(p[i+1] if i < len(p)-1 else p[0]) for i,v in enumerate(p)
-}
+ordering = [0] * (len(p)+1) # +1 because lol 0
+for i, v in enumerate(p):
+    ordering[int(v)] = int(p[i+1] if i < len(p)-1 else p[0])
 
 if False: # Part 1
     # For both parts, we'll store the size of the circle and the rounds to run
@@ -16,10 +16,10 @@ else: # Part 2
     # extra values, so since my last number was 2 we'll make that point to 10
     # and we'll make 1,000,000 point back around to my first number, 5.
     ordering[2] = 10
-    ordering[l] = 5
     # Then we'll add all the mappings up to a million.
     for i in range(10,1000000):
-        ordering[i] = i+1
+        ordering.append(i+1)
+    ordering.append(5)
 
 m0 = 5 # Current cup, starts as first cup from our input
 for i in range(r):
