@@ -35,22 +35,19 @@ for line in lines:
         coords.append(coord)
     tiles[coord] = not tiles.get(coord,False)
 
+tiles = {x:y for x,y in tiles.items() if y}
+
 count = lambda tiles: sum(1 for k,v in tiles.items() if v == True)
 neighbors = lambda c: [(c[0]+n[0],c[1]+n[1]) for n in ((-1,-1),(-1,0),(0,1),(1,1),(1,0),(0,-1))]
 
 def runDay(tiles):
-    candidates = set()
+    t = {}
     for c,v in tiles.items():
-        if v:
-            candidates.add(c)
-            for _c in neighbors(c):
-                candidates.add(_c)
+        for _c in neighbors(c):
+            t[_c] = t.get(_c,0) + 1
     out = {}
-    for c in list(candidates):
-        s = sum(1 for _c in neighbors(c) if tiles.get(_c, False))
-        if tiles.get(c,False) and s > 0 and s <= 2:
-            out[c] = True
-        elif not tiles.get(c,False) and s == 2:
+    for c,v in t.items():
+        if (not tiles.get(c,False) and v == 2) or (tiles.get(c,False) and v > 0 and v <= 2):
             out[c] = True
     return out
 
